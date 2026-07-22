@@ -1,21 +1,25 @@
 package model;
 
+import util.Util;
+
 public abstract class Employee {
     protected String id;
     protected String name;
     protected double salary;
+    protected String role;
 
     public Employee() {
     }
 
-    public Employee(String id, String name, double salary) {
+    public Employee(String id, String name, double salary, String role) {
         this.id = id;
         this.name = name;
         this.salary = salary;
+        this.role = role;
     }
 
     public void display() {
-        // TODO: Display
+        System.out.printf("|ID: %-10s| Name: %-15s| Salary: %10s| Role: %10s|", id, name, Util.formatCurrency(salary), role);
     }
 
     public abstract double calculateSalary();
@@ -42,5 +46,13 @@ public abstract class Employee {
 
     public void setSalary(double salary) {
         this.salary = salary;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

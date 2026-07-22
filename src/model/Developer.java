@@ -10,9 +10,14 @@ public class Developer extends Employee implements Workable {
     }
 
     public Developer(String id, String name, double salary, int experienceYear, String projectName) {
-        super(id, name, salary);
+        super(id, name, salary, "Developer");
         this.experienceYear = experienceYear;
         this.projectName = projectName;
+    }
+
+    public void displayDeveloperInfo() {
+        super.display();
+        System.out.printf(" Exp. Year: %2d| Project: %20s|\n", experienceYear, projectName);
     }
 
     @Override

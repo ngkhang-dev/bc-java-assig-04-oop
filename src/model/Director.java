@@ -11,9 +11,14 @@ public class Director extends Employee implements Reportable, Manageable {
     }
 
     public Director(String id, String name, double salary, double stockPercent, String strategy) {
-        super(id, name, salary);
+        super(id, name, salary, "Director");
         this.stockPercent = stockPercent;
         this.strategy = strategy;
+    }
+
+    public void displayDirectorInfo() {
+        super.display();
+        System.out.printf(" Stock: %6s| Strategy: %20s|\n", String.format("%,.0f", stockPercent), strategy);
     }
 
     @Override

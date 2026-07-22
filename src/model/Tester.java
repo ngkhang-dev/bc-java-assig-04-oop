@@ -12,9 +12,14 @@ public class Tester extends Employee implements Workable, Reportable {
     }
 
     public Tester(String id, String name, double salary, String testingTool, int bugCount) {
-        super(id, name, salary);
+        super(id, name, salary, "Tester");
         this.testingTool = testingTool;
         this.bugCount = bugCount;
+    }
+
+    public void displayTesterInfo() {
+        super.display();
+        System.out.printf(" Testing Tool: %20s| Bug Count: %2d|\n", testingTool, bugCount);
     }
 
     @Override

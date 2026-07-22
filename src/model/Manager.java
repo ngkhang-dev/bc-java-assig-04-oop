@@ -10,8 +10,13 @@ public class Manager extends Employee implements Reportable, Manageable {
     }
 
     public Manager(String id, String name, double salary, double bonus) {
-        super(id, name, salary);
+        super(id, name, salary, "Manager");
         this.bonus = bonus;
+    }
+
+    public void displayManagerInfo() {
+        super.display();
+        System.out.printf(" Bonus: %12s|\n", String.format("%,.0f", bonus));
     }
 
     @Override
