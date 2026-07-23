@@ -4,12 +4,8 @@ import model.Director;
 import model.Manager;
 import model.Tester;
 
-import java.util.Scanner;
-
 public class MainApplication {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
         EmployeeManager employeeManager = initialData();
 
         System.out.print("""
@@ -19,26 +15,44 @@ public class MainApplication {
                 """);
 
         // Display all employees
-        System.out.println("All employees:");
+        System.out.println("\n1. Display all employees:");
         employeeManager.displayEmployees();
+
+        System.out.println("\n2. Add a new employee:");
+        Developer dev = new Developer("DEV004", "Halley", 6_000, 1, "PROJ01 - E-Commerce with Spring Boot");
+        Tester test = new Tester("TEST003", "Harry", 5_000, "JUnit", 5);
+        Manager mgr = new Manager("MGR003", "Thomas", 10_000, 1000);
+        Director dir = new Director("DIR002", "Dillon", 12_000, 0.2, "Agile");
+        employeeManager.addEmployee(dev, test, mgr, dir);
+        employeeManager.displayEmployees();
+
+        System.out.println("\n3. Display salaries by role:");
+        employeeManager.displaySalaries();
+
+        System.out.println("\n4. Perform actions by index = 8:");
+        employeeManager.performActions(8);
+
+        System.out.println("\n5. Perform actions by object:");
+        employeeManager.performActions(dev);
+
+        System.out.println("\n6. Perform all actions:");
+        employeeManager.performAllActions();
+
+        System.out.println("\n7. Exit");
     }
 
     public static EmployeeManager initialData() {
         EmployeeManager employeeManager = new EmployeeManager();
 
-        Developer dev1 = new Developer("DEV001", "John", 10_000, 3, "Project 1");
-        Developer dev2 = new Developer("DEV002", "Tom", 9_000, 2, "Project 1");
-        Developer dev3 = new Developer("DEV003", "Hank", 12_000, 4, "Project 2");
-
-        Tester tester1 = new Tester("TEST001", "Jane", 8_200, "JUnit", 10);
-        Tester tester2 = new Tester("TEST002", "Mike", 7_500, "Jest", 4);
-
-        Manager manager1 = new Manager("MGR001", "Jack", 15_000, 500);
-        Manager manager2 = new Manager("MGR002", "Jill", 13_000, 300);
-
-        Director director = new Director("DIR001", "Wick", 18_000, 0.1, "Agile");
-
-        employeeManager.addEmployee(dev1, dev2, dev3, tester1, tester2, manager1, manager2, director);
+        employeeManager.addEmployee(
+                new Developer("DEV001", "John", 10_000, 3, "PROJ01 - E-Commerce with Spring Boot"),
+                new Developer("DEV002", "Tom", 9_000, 2, "PROJ01 - E-Commerce with Spring Boot"),
+                new Developer("DEV003", "Hank", 12_000, 4, "PROJ02 - E-Commerce with React.js"),
+                new Tester("TEST001", "Jane", 8_200, "JUnit", 10),
+                new Tester("TEST002", "Mike", 7_500, "Jest", 4),
+                new Manager("MGR001", "Jack", 15_000, 500),
+                new Manager("MGR002", "Jill", 13_000, 300),
+                new Director("DIR001", "Wick", 18_000, 0.1, "Agile"));
 
         return employeeManager;
     }

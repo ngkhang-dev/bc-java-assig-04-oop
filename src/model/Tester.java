@@ -17,14 +17,10 @@ public class Tester extends Employee implements Workable, Reportable {
         this.bugCount = bugCount;
     }
 
-    public void displayTesterInfo() {
+    @Override
+    public void displayDetailInfo() {
         super.display();
         System.out.printf(" Testing Tool: %20s| Bug Count: %2d|\n", testingTool, bugCount);
-    }
-
-    @Override
-    public void display() {
-        super.display();
     }
 
     @Override

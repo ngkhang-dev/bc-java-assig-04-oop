@@ -19,8 +19,10 @@ public abstract class Employee {
     }
 
     public void display() {
-        System.out.printf("|ID: %-10s| Name: %-15s| Salary: %10s| Role: %10s|", id, name, Util.formatCurrency(salary), role);
+        System.out.printf("|ID: %-10s| Name: %-15s| Role: %10s| Salary: %15s| Total Salary: %15s|", id, name, role, Util.formatCurrency(salary), Util.formatCurrency(calculateSalary()));
     }
+
+    public abstract void displayDetailInfo();
 
     public abstract double calculateSalary();
 

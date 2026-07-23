@@ -16,14 +16,10 @@ public class Director extends Employee implements Reportable, Manageable {
         this.strategy = strategy;
     }
 
-    public void displayDirectorInfo() {
-        super.display();
-        System.out.printf(" Stock: %6s| Strategy: %20s|\n", String.format("%,.0f", stockPercent), strategy);
-    }
-
     @Override
-    public void display() {
+    public void displayDetailInfo() {
         super.display();
+        System.out.printf(" Stock: %5.1f%%| Strategy: %20s|\n", stockPercent * 100, strategy);
     }
 
     @Override
@@ -33,12 +29,12 @@ public class Director extends Employee implements Reportable, Manageable {
 
     @Override
     public void manage() {
-        System.out.printf("[Director] %s is managing %s\n", name, strategy);
+        System.out.printf("[Director] %s is managing with a  %s strategy\n", name, strategy);
     }
 
     @Override
     public void report() {
-        System.out.printf("[Director] %s has %d%% stock\n", name, stockPercent);
+        System.out.printf("[Director] %s has %.1f%% stock\n", name, stockPercent * 100);
     }
 
     public double getStockPercent() {

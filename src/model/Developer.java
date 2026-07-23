@@ -15,14 +15,10 @@ public class Developer extends Employee implements Workable {
         this.projectName = projectName;
     }
 
-    public void displayDeveloperInfo() {
+    @Override
+    public void displayDetailInfo() {
         super.display();
         System.out.printf(" Exp. Year: %2d| Project: %20s|\n", experienceYear, projectName);
-    }
-
-    @Override
-    public void display() {
-        super.display();
     }
 
     @Override

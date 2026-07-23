@@ -3,9 +3,7 @@ package manager;
 import model.*;
 import util.Util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class EmployeeManager {
     private List<Employee> employees;
@@ -28,90 +26,106 @@ public class EmployeeManager {
     }
 
     public void displaySalaries() {
-        List<Double> salaries = calculatorSalaries();
+        Map<String, Double> salariesByRole = calculateSalariesByRole();
 
         double totalSalaries = 0;
         String result = "";
-        for (int i = 0; i < salaries.size(); i++) {
-            String type;
-            double salary = salaries.get(i);
-            totalSalaries += salary;
 
-            switch (i) {
-                case 0:
-                    type = "Developer";
-                    break;
-                case 1:
-                    type = "Tester";
-                    break;
-                case 2:
-                    type = "Director";
-                    break;
-                default:
-                    type = "Manager";
-            }
-            result += String.format("- %-13s: %15s\n", type, Util.formatCurrency(salary));
+        for (Map.Entry<String, Double> entry : salariesByRole.entrySet()) {
+            totalSalaries += entry.getValue();
+            result += String.format("- %-13s: %15s\n", entry.getKey(), Util.formatCurrency(entry.getValue()));
         }
 
-        System.out.println(result + String.format("%-15s: %15s\n", "Total salaries",
-                Util.formatCurrency(totalSalaries)));
-
+        System.out.print(result + String.format("%-15s: %15s\n", "Total salaries", Util.formatCurrency(totalSalaries)));
     }
 
-    public void performActions(Employee employee) {
-        if (employee instanceof Developer dev) {
-            dev.displayDeveloperInfo();
-            dev.work();
+    public void performActions(int index) {
+        if (index < 0 || index >= employees.size()) {
+            System.out.println("Invalid index");
             return;
         }
 
-        if (employee instanceof Tester tester) {
-            tester.displayTesterInfo();
+        Employee employee = employees.get(index);
+        performActions(employee);
+    }
+
+    public <T> void performActions(T object) {
+        if (object instanceof Employee e) {
+            e.displayDetailInfo();
+        }
+
+        if (object instanceof Developer dev) {
+            dev.work();
+        } else if (object instanceof Tester tester) {
             tester.work();
             tester.report();
-            return;
-        }
-        if (employee instanceof Manager manager) {
-            manager.displayManagerInfo();
-            manager.report();
+        } else if (object instanceof Manager manager) {
+            manager.work();
             manager.manage();
-            return;
-        }
-
-        if (employee instanceof Director director) {
-            director.displayDirectorInfo();
+        } else if (object instanceof Director director) {
             director.report();
-            return;
+            director.manage();
+        } else {
+            System.out.println("Invalid object type");
         }
     }
 
-    private List<Double> calculatorSalaries() {
-        int iDev = 0;
-        int iTest = 1;
-        int iDir = 2;
-        int iMan = 3;
-
-        List<Double> salaries = Arrays.asList(0.0, 0.0, 0.0, 0.0);
+    public void performAllActions() {
+        List<Developer> developers = new ArrayList<>();
+        List<Tester> testers = new ArrayList<>();
+        List<Manager> managers = new ArrayList<>();
+        List<Director> directors = new ArrayList<>();
 
         for (Employee e : employees) {
-            String className = e.getClass().getSimpleName();
-
-            switch (className) {
-                case "Developer":
-                    salaries.set(iDev, salaries.get(iDev) + e.getSalary());
-                    break;
-                case "Tester":
-                    salaries.set(iTest, salaries.get(iTest) + e.getSalary());
-                    break;
-                case "Director":
-                    salaries.set(iDir, salaries.get(iDir) + e.getSalary());
-                    break;
-                default:
-                    salaries.set(iMan, salaries.get(iMan) + e.getSalary());
-                    break;
+            if (e instanceof Developer dev) {
+                developers.add(dev);
+            } else if (e instanceof Tester tester) {
+                testers.add(tester);
+            } else if (e instanceof Manager manager) {
+                managers.add(manager);
+            } else if (e instanceof Director director) {
+                directors.add(director);
             }
         }
 
-        return salaries;
+        System.out.println("Performing actions of Developers");
+        for (Developer dev : developers) {
+            dev.displayDetailInfo();
+            dev.work();
+        }
+
+        System.out.println("\nPerforming actions of Testers");
+        for (Tester tester : testers) {
+            tester.displayDetailInfo();
+            tester.work();
+            tester.report();
+        }
+
+        System.out.println("\nPerforming actions of Managers");
+        for (Manager manager : managers) {
+            manager.displayDetailInfo();
+            manager.work();
+            manager.manage();
+        }
+
+        System.out.println("\nPerforming actions of Directors");
+        for (Director director : directors) {
+            director.displayDetailInfo();
+            director.report();
+            director.manage();
+        }
+    }
+
+    private Map<String, Double> calculateSalariesByRole() {
+        Map<String, Double> salariesByRole = new HashMap<String, Double>();
+
+        for (Employee e : employees) {
+            String role = e.getRole();
+
+            double newSalary = salariesByRole.getOrDefault(role, 0.0) + e.calculateSalary();
+            salariesByRole.put(role, newSalary);
+        }
+
+        return salariesByRole;
     }
 }

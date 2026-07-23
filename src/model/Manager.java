@@ -2,8 +2,10 @@ package model;
 
 import interfaces.Manageable;
 import interfaces.Reportable;
+import interfaces.Workable;
+import util.Util;
 
-public class Manager extends Employee implements Reportable, Manageable {
+public class Manager extends Employee implements Workable, Reportable, Manageable {
     private double bonus;
 
     public Manager() {
@@ -14,19 +16,20 @@ public class Manager extends Employee implements Reportable, Manageable {
         this.bonus = bonus;
     }
 
-    public void displayManagerInfo() {
-        super.display();
-        System.out.printf(" Bonus: %12s|\n", String.format("%,.0f", bonus));
-    }
-
     @Override
-    public void display() {
+    public void displayDetailInfo() {
         super.display();
+        System.out.printf(" Bonus: %12s|\n", Util.formatCurrency(bonus));
     }
 
     @Override
     public double calculateSalary() {
         return salary + bonus;
+    }
+
+    @Override
+    public void work() {
+        System.out.printf("[Manager] %s is working on projects\n", name);
     }
 
     @Override
